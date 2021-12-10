@@ -12,6 +12,7 @@
 # the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
+import ast
 import ipaddress
 import json
 import re
@@ -22,8 +23,7 @@ import botocore.response as br
 import phantom.app as phantom
 import requests
 import six
-import ast
-from boto3 import client, Session
+from boto3 import Session, client
 from botocore.config import Config
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
@@ -546,8 +546,9 @@ class AwsWafConnector(BaseConnector):
 
 if __name__ == '__main__':
 
-    import pudb
     import argparse
+
+    import pudb
 
     pudb.set_trace()
 

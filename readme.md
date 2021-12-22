@@ -2,7 +2,7 @@
 # AWS WAF V2
 
 Publisher: Splunk  
-Connector Version: 2\.1\.2  
+Connector Version: 2\.1\.6  
 Product Vendor: AWS  
 Product Name: WAF V2  
 Product Version Supported (regex): "\.\*"  
@@ -12,6 +12,9 @@ This app integrates with AWS WAF to add and delete IP addresses using API versio
 
 [comment]: # " File: readme.md"
 [comment]: # "  Copyright (c) 2018-2021 Splunk Inc."
+[comment]: # ""
+[comment]: # "  SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part"
+[comment]: # "  without a valid written license from Splunk Inc. is PROHIBITED."
 [comment]: # ""
 ## Asset Configuration
 

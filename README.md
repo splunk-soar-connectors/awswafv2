@@ -2,15 +2,15 @@
 # AWS WAF V2
 
 Publisher: Splunk  
-Connector Version: 2\.1\.7  
+Connector Version: 2.1.8  
 Product Vendor: AWS  
 Product Name: WAF V2  
-Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 4\.10\.0\.40961  
+Product Version Supported (regex): ".\*"  
+Minimum Product Version: 5.5.0  
 
 This app integrates with AWS WAF to add and delete IP addresses using API version V2
 
-[comment]: # " File: readme.md"
+[comment]: # " File: README.md"
 [comment]: # "  Copyright (c) 2018-2021 Splunk Inc."
 [comment]: # ""
 [comment]: # "  SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part"
@@ -52,16 +52,16 @@ The below configuration variables are required for this Connector to operate.  T
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
-**access\_key\_id** |  optional  | password | Access Key ID
-**access\_key\_secret** |  optional  | password | Access Key Secret
+**access_key_id** |  optional  | password | Access Key ID
+**access_key_secret** |  optional  | password | Access Key Secret
 **scope** |  required  | string | Specifies whether this is for an AWS CloudFront distribution or a regional application
 **region** |  required  | string | Region
-**use\_role** |  optional  | boolean | Use attached role when running Phantom in EC2
+**use_role** |  optional  | boolean | Use attached role when running Phantom in EC2
 
 ### Supported Actions  
 [test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
-[add ip](#action-add-ip) - Add new IP\(s\) to an existing IP set or a new IP set  
-[delete ip](#action-delete-ip) - Remove IP\(s\) from an existing IP set  
+[add ip](#action-add-ip) - Add new IP(s) to an existing IP set or a new IP set  
+[delete ip](#action-delete-ip) - Remove IP(s) from an existing IP set  
 [delete ip set](#action-delete-ip-set) - Remove the specified IP Set  
 [list acls](#action-list-acls) - List all ACLs  
 [list ip sets](#action-list-ip-sets) - List all IP sets  
@@ -79,79 +79,79 @@ No parameters are required for this action
 No Output  
 
 ## action: 'add ip'
-Add new IP\(s\) to an existing IP set or a new IP set
+Add new IP(s) to an existing IP set or a new IP set
 
 Type: **contain**  
 Read only: **False**
 
-The ip\_set\_id or ip\_set\_name must be given as input for adding an IP to the IP set, ip\_set\_id will be considered if both ip\_set\_id and ip\_set\_name is provided in input\. If the given ip\_set\_name does not exist on the server and the name matches the WAF IP set name criteria, the new IP set with a given input will be created on the server\.
+The ip_set_id or ip_set_name must be given as input for adding an IP to the IP set, ip_set_id will be considered if both ip_set_id and ip_set_name is provided in input. If the given ip_set_name does not exist on the server and the name matches the WAF IP set name criteria, the new IP set with a given input will be created on the server.
 
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**ip\_set\_id** |  optional  | ID of the IP set | string |  `awswaf ip set id` 
-**ip\_set\_name** |  optional  | Name of the IP set | string |  `awswaf ip set name` 
-**ip\_address** |  required  | IP Address \(Allows comma\-separated\) | string |  `awswaf ip mask` 
+**ip_set_id** |  optional  | ID of the IP set | string |  `awswaf ip set id` 
+**ip_set_name** |  optional  | Name of the IP set | string |  `awswaf ip set name` 
+**ip_address** |  required  | IP Address (Allows comma-separated) | string |  `awswaf ip mask` 
 **credentials** |  optional  | Assumed role credentials | string |  `aws credentials` 
 
 #### Action Output
-DATA PATH | TYPE | CONTAINS
---------- | ---- | --------
-action\_result\.status | string | 
-action\_result\.parameter\.ip\_address | string |  `awswaf ip mask` 
-action\_result\.parameter\.ip\_set\_id | string |  `awswaf ip set id` 
-action\_result\.parameter\.ip\_set\_name | string |  `awswaf ip set name` 
-action\_result\.data\.\*\.Id | string |  `awswaf ip set id` 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.content\-length | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.content\-type | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.date | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.x\-amzn\-requestid | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPStatusCode | numeric | 
-action\_result\.data\.\*\.ResponseMetadata\.RequestId | string | 
-action\_result\.data\.\*\.ResponseMetadata\.RetryAttempts | numeric | 
-action\_result\.summary\.ip\_status | string | 
-action\_result\.message | string | 
-action\_result\.data\.\*\.NextLockToken | string | 
-summary\.total\_objects | numeric | 
-summary\.total\_objects\_successful | numeric | 
-action\_result\.parameter\.credentials | string |  `aws credentials`   
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.status | string |  |   success  failed 
+action_result.parameter.ip_address | string |  `awswaf ip mask`  |   126.0.0.0/24 
+action_result.parameter.ip_set_id | string |  `awswaf ip set id`  |   0778db34-cc96-4795-8c14-d1a146888391 
+action_result.parameter.ip_set_name | string |  `awswaf ip set name`  |   test_ip_set  test_ip_set_6 
+action_result.data.\*.Id | string |  `awswaf ip set id`  |   b53eef26-f2be-44ef-9bcf-c16c3d07d791 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.content-length | string |  |   54 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.content-type | string |  |   application/x-amz-json-1.1 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.date | string |  |   Thu, 04 Apr 2019 09:02:54 GMT 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.x-amzn-requestid | string |  |   6e762be6-56b8-11e9-ab52-739c81485c05 
+action_result.data.\*.ResponseMetadata.HTTPStatusCode | numeric |  |   200 
+action_result.data.\*.ResponseMetadata.RequestId | string |  |   6e762be6-56b8-11e9-ab52-739c81485c05 
+action_result.data.\*.ResponseMetadata.RetryAttempts | numeric |  |   0 
+action_result.summary.ip_status | string |  |   IP(s) added successfully 
+action_result.message | string |  |   Ip status: IP(s) added successfully 
+action_result.data.\*.NextLockToken | string |  |  
+summary.total_objects | numeric |  |   1 
+summary.total_objects_successful | numeric |  |   1 
+action_result.parameter.credentials | string |  `aws credentials`  |   {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'}   
 
 ## action: 'delete ip'
-Remove IP\(s\) from an existing IP set
+Remove IP(s) from an existing IP set
 
 Type: **correct**  
 Read only: **False**
 
-The ip\_set\_id or ip\_set\_name must be given as input for deleting an IP from the IP set, ip\_set\_id will be considered if both ip\_set\_id and ip\_set\_name is provided in input\.
+The ip_set_id or ip_set_name must be given as input for deleting an IP from the IP set, ip_set_id will be considered if both ip_set_id and ip_set_name is provided in input.
 
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**ip\_set\_id** |  optional  | IP Set ID | string |  `awswaf ip set id` 
-**ip\_set\_name** |  optional  | IP Set Name | string |  `awswaf ip set name` 
-**ip\_address** |  required  | IP Address \(Allows comma\-separated\) | string |  `awswaf ip mask` 
+**ip_set_id** |  optional  | IP Set ID | string |  `awswaf ip set id` 
+**ip_set_name** |  optional  | IP Set Name | string |  `awswaf ip set name` 
+**ip_address** |  required  | IP Address (Allows comma-separated) | string |  `awswaf ip mask` 
 **credentials** |  optional  | Assumed role credentials | string |  `aws credentials` 
 
 #### Action Output
-DATA PATH | TYPE | CONTAINS
---------- | ---- | --------
-action\_result\.status | string | 
-action\_result\.parameter\.ip\_address | string |  `awswaf ip mask` 
-action\_result\.parameter\.ip\_set\_id | string |  `awswaf ip set id` 
-action\_result\.parameter\.ip\_set\_name | string |  `awswaf ip set name` 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.content\-length | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.content\-type | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.date | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.x\-amzn\-requestid | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPStatusCode | numeric | 
-action\_result\.data\.\*\.ResponseMetadata\.RequestId | string | 
-action\_result\.data\.\*\.ResponseMetadata\.RetryAttempts | numeric | 
-action\_result\.summary\.ip\_status | string | 
-action\_result\.message | string | 
-action\_result\.data\.\*\.NextLockToken | string | 
-summary\.total\_objects | numeric | 
-summary\.total\_objects\_successful | numeric | 
-action\_result\.parameter\.credentials | string |  `aws credentials`   
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.status | string |  |   success  failed 
+action_result.parameter.ip_address | string |  `awswaf ip mask`  |   126.0.0.0/24 
+action_result.parameter.ip_set_id | string |  `awswaf ip set id`  |   0778db34-cc96-4795-8c14-d1a146888391 
+action_result.parameter.ip_set_name | string |  `awswaf ip set name`  |   test_ip  test_ip_set_5 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.content-length | string |  |   54 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.content-type | string |  |   application/x-amz-json-1.1 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.date | string |  |   Thu, 04 Apr 2019 09:08:32 GMT 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.x-amzn-requestid | string |  |   389889ac-56b9-11e9-ab52-739c81485c05 
+action_result.data.\*.ResponseMetadata.HTTPStatusCode | numeric |  |   200 
+action_result.data.\*.ResponseMetadata.RequestId | string |  |   389889ac-56b9-11e9-ab52-739c81485c05 
+action_result.data.\*.ResponseMetadata.RetryAttempts | numeric |  |   0 
+action_result.summary.ip_status | string |  |   IP(s) deleted successfully 
+action_result.message | string |  |   Ip status: IP(s) deleted successfully 
+action_result.data.\*.NextLockToken | string |  |  
+summary.total_objects | numeric |  |   1 
+summary.total_objects_successful | numeric |  |   1 
+action_result.parameter.credentials | string |  `aws credentials`  |   {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'}   
 
 ## action: 'delete ip set'
 Remove the specified IP Set
@@ -159,33 +159,33 @@ Remove the specified IP Set
 Type: **correct**  
 Read only: **False**
 
-The ip\_set\_id or ip\_set\_name must be given as input for deleting an IP set, ip\_set\_id will be used if both ip\_set\_id and ip\_set\_name is provided in input\.
+The ip_set_id or ip_set_name must be given as input for deleting an IP set, ip_set_id will be used if both ip_set_id and ip_set_name is provided in input.
 
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**ip\_set\_id** |  optional  | IP Set ID | string |  `awswaf ip set id` 
-**ip\_set\_name** |  optional  | IP Set Name | string |  `awswaf ip set name` 
+**ip_set_id** |  optional  | IP Set ID | string |  `awswaf ip set id` 
+**ip_set_name** |  optional  | IP Set Name | string |  `awswaf ip set name` 
 **credentials** |  optional  | Assumed role credentials | string |  `aws credentials` 
 
 #### Action Output
-DATA PATH | TYPE | CONTAINS
---------- | ---- | --------
-action\_result\.data\.\*\.ResponseMetadata\.RequestId | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.date | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.content\-type | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.content\-length | string | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPHeaders\.x\-amzn\-requestid | string | 
-action\_result\.data\.\*\.ResponseMetadata\.RetryAttempts | numeric | 
-action\_result\.data\.\*\.ResponseMetadata\.HTTPStatusCode | numeric | 
-action\_result\.status | string | 
-action\_result\.message | string | 
-action\_result\.summary\.delete\_status | string | 
-action\_result\.parameter\.ip\_set\_id | string |  `awswaf ip set id` 
-action\_result\.parameter\.ip\_set\_name | string |  `awswaf ip set name` 
-action\_result\.parameter\.credentials | string |  `aws credentials` 
-summary\.total\_objects | numeric | 
-summary\.total\_objects\_successful | numeric |   
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.data.\*.ResponseMetadata.RequestId | string |  |   0c28d801-b618-49b8-b904-2ff6698bb038 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.date | string |  |   Wed, 22 Sep 2021 20:04:47 GMT 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.content-type | string |  |   application/x-amz-json-1.1 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.content-length | string |  |   2 
+action_result.data.\*.ResponseMetadata.HTTPHeaders.x-amzn-requestid | string |  |   0c28d801-b618-49b8-b904-2ff6698bb038 
+action_result.data.\*.ResponseMetadata.RetryAttempts | numeric |  |   0 
+action_result.data.\*.ResponseMetadata.HTTPStatusCode | numeric |  |   200 
+action_result.status | string |  |   success 
+action_result.message | string |  |   Delete status: IP Set deleted successfully 
+action_result.summary.delete_status | string |  |   IP Set deleted successfully 
+action_result.parameter.ip_set_id | string |  `awswaf ip set id`  |   25b7e872-0645-4229-91d5-28e2369262aa 
+action_result.parameter.ip_set_name | string |  `awswaf ip set name`  |   new_ip_set_1383662 
+action_result.parameter.credentials | string |  `aws credentials`  |   {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'} 
+summary.total_objects | numeric |  |   1 
+summary.total_objects_successful | numeric |  |   1   
 
 ## action: 'list acls'
 List all ACLs
@@ -196,24 +196,24 @@ Read only: **True**
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**limit** |  optional  | Maximum number of results \(default\: 100\) | numeric | 
+**limit** |  optional  | Maximum number of results (default: 100) | numeric | 
 **credentials** |  optional  | Assumed role credentials | string |  `aws credentials` 
 
 #### Action Output
-DATA PATH | TYPE | CONTAINS
---------- | ---- | --------
-action\_result\.status | string | 
-action\_result\.parameter\.limit | numeric | 
-action\_result\.data\.\*\.ARN | string | 
-action\_result\.data\.\*\.LockToken | string | 
-action\_result\.data\.\*\.Description | string | 
-action\_result\.data\.\*\.Name | string | 
-action\_result\.data\.\*\.Id | string | 
-action\_result\.summary\.number\_of\_acls | numeric | 
-action\_result\.message | string | 
-summary\.total\_objects | numeric | 
-summary\.total\_objects\_successful | numeric | 
-action\_result\.parameter\.credentials | string |  `aws credentials`   
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.status | string |  |   success  failed 
+action_result.parameter.limit | numeric |  |   50 
+action_result.data.\*.ARN | string |  |  
+action_result.data.\*.LockToken | string |  |  
+action_result.data.\*.Description | string |  |  
+action_result.data.\*.Name | string |  |   test_acl_2 
+action_result.data.\*.Id | string |  |   1d5f92b0-c376-4095-a939-efd04f62fda1 
+action_result.summary.number_of_acls | numeric |  |   4 
+action_result.message | string |  |   Number of acls: 4 
+summary.total_objects | numeric |  |   1 
+summary.total_objects_successful | numeric |  |   1 
+action_result.parameter.credentials | string |  `aws credentials`  |   {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'}   
 
 ## action: 'list ip sets'
 List all IP sets
@@ -224,21 +224,21 @@ Read only: **True**
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**limit** |  optional  | Maximum number of results \(default\: 100\) | numeric | 
+**limit** |  optional  | Maximum number of results (default: 100) | numeric | 
 **credentials** |  optional  | Assumed role credentials | string |  `aws credentials` 
 
 #### Action Output
-DATA PATH | TYPE | CONTAINS
---------- | ---- | --------
-action\_result\.status | string | 
-action\_result\.parameter\.limit | numeric | 
-action\_result\.data\.\*\.Id | string |  `awswaf ip set id` 
-action\_result\.data\.\*\.Name | string |  `awswaf ip set name` 
-action\_result\.data\.\*\.ARN | string | 
-action\_result\.data\.\*\.LockToken | string | 
-action\_result\.data\.\*\.Description | string | 
-action\_result\.summary\.number\_of\_ip\_sets | numeric | 
-action\_result\.message | string | 
-summary\.total\_objects | numeric | 
-summary\.total\_objects\_successful | numeric | 
-action\_result\.parameter\.credentials | string |  `aws credentials` 
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.status | string |  |   success  failed 
+action_result.parameter.limit | numeric |  |   50 
+action_result.data.\*.Id | string |  `awswaf ip set id`  |   0778db34-cc96-4795-8c14-d1a146888391 
+action_result.data.\*.Name | string |  `awswaf ip set name`  |   test_ip 
+action_result.data.\*.ARN | string |  |  
+action_result.data.\*.LockToken | string |  |  
+action_result.data.\*.Description | string |  |  
+action_result.summary.number_of_ip_sets | numeric |  |   56 
+action_result.message | string |  |   Number of ip sets: 56 
+summary.total_objects | numeric |  |   1 
+summary.total_objects_successful | numeric |  |   1 
+action_result.parameter.credentials | string |  `aws credentials`  |   {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'} 

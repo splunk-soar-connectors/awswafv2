@@ -1,6 +1,6 @@
 # File: awswafv2_consts.py
 #
-# Copyright (c) 2021-2023 Splunk Inc.
+# Copyright (c) 2021-2024 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # and limitations under the License.
 AWSWAF_VERSION_V2 = 'wafv2'
 AWSWAF_ACCESS_KEY = 'access_key_id'
-AWSWAF_SECRET_KEY = 'access_key_secret'
+AWSWAF_SECRET_KEY = 'access_key_secret'  # pragma: allowlist secret
 AWSWAF_REGION = 'region'
 AWSWAF_SCOPE = 'scope'
 AWSWAF_SCOPE_CLOUDFRONT = 'CLOUDFRONT'

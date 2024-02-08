@@ -6,7 +6,7 @@ Connector Version: 2.1.8
 Product Vendor: AWS  
 Product Name: WAF V2  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 5.5.0  
+Minimum Product Version: 6.1.1  
 
 This app integrates with AWS WAF to add and delete IP addresses using API version V2
 

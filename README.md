@@ -26,7 +26,7 @@ documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for
 for more information.
 
 Region parameter provided in the asset configuration parameter and region of the bucket which is
-created in AWS console must match, otherwise the user will get an InvalidLocationConstraint error.
+created in AWS console must match, otherwise the user will get an InvalidLocationConstraint error. 
 
 For the **Update bucket** action, the
 API is unable to validate the KMS key. Hence, it is recommended to provide a

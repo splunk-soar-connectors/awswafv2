@@ -87,7 +87,7 @@ class AwsWafConnector(BaseConnector):
                     new_dict.update(page)
                 return new_dict
             except Exception as e:
-                return {'error': e}
+                return {"error": e}
 
         return cur_obj
 
@@ -101,8 +101,7 @@ class AwsWafConnector(BaseConnector):
             resp_json = boto_func(Scope=self._scope, **kwargs)
         except Exception as e:
             exception_message = e.args[0].strip()
-            return RetVal(action_result.set_status(phantom.APP_ERROR, 'boto3 call to WAF failed', exception_message),
-                          None)
+            return RetVal(action_result.set_status(phantom.APP_ERROR, "boto3 call to WAF failed", exception_message), None)
 
         return phantom.APP_SUCCESS, self._sanitize_data(resp_json)
 
@@ -114,12 +113,12 @@ class AwsWafConnector(BaseConnector):
 
         # Try getting and using temporary assume role credentials from parameters
         temp_credentials = dict()
-        if param and 'credentials' in param:
+        if param and "credentials" in param:
             try:
-                temp_credentials = ast.literal_eval(param['credentials'])
-                self._access_key = temp_credentials.get('AccessKeyId', '')
-                self._secret_key = temp_credentials.get('SecretAccessKey', '')
-                self._session_token = temp_credentials.get('SessionToken', '')
+                temp_credentials = ast.literal_eval(param["credentials"])
+                self._access_key = temp_credentials.get("AccessKeyId", "")
+                self._secret_key = temp_credentials.get("SecretAccessKey", "")
+                self._session_token = temp_credentials.get("SessionToken", "")
 
                 self.save_progress("Using temporary assume role credentials for action")
             except Exception as e:
@@ -134,13 +133,11 @@ class AwsWafConnector(BaseConnector):
                     aws_access_key_id=self._access_key,
                     aws_secret_access_key=self._secret_key,
                     aws_session_token=self._session_token,
-                    config=boto_config)
+                    config=boto_config,
+                )
             else:
                 self.debug_print("Creating boto3 client without API keys")
-                self._client = client(
-                    AWSWAF_VERSION_V2,
-                    region_name=self._region,
-                    config=boto_config)
+                self._client = client(AWSWAF_VERSION_V2, region_name=self._region, config=boto_config)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 client: {0}".format(e))
 
@@ -152,14 +149,14 @@ class AwsWafConnector(BaseConnector):
         ip_set_name = ""
         if id:
             param = id
-            key = 'Id'
+            key = "Id"
         else:
             param = name
-            key = 'Name'
+            key = "Name"
         for ipset in ip_set:
             if ipset.get(key) == param:
-                ip_set_id = ipset.get('Id')
-                ip_set_name = ipset.get('Name')
+                ip_set_id = ipset.get("Id")
+                ip_set_name = ipset.get("Name")
                 break
 
         return ip_set_id, ip_set_name
@@ -169,30 +166,30 @@ class AwsWafConnector(BaseConnector):
         if not x:
             return None
 
-        ip_add = ip_address.split('/')[0]
+        ip_add = ip_address.split("/")[0]
         try:
             ipaddress.IPv4Address(ip_add)
-            return 'IPV4'
+            return "IPV4"
         except Exception:
             pass
         try:
             ipaddress.IPv6Address(ip_add)
-            return 'IPV6'
+            return "IPV6"
         except Exception:
             return None
 
     def _ip_update(self, action_result, ip_address_list, ip_set_id, ip_set_name):
         # get_ip_set call for retrieving lock_token and ip_address
         try:
-            ret_val, resp_json = self._make_boto_call(action_result, 'get_ip_set', Name=ip_set_name, Id=ip_set_id)
+            ret_val, resp_json = self._make_boto_call(action_result, "get_ip_set", Name=ip_set_name, Id=ip_set_id)
             if phantom.is_fail(ret_val):
                 return action_result.set_status(phantom.APP_ERROR, AWSWAF_ERR_GET_IPSET)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, str(e))
 
         # getting existing ip addresses from ip set
-        list_addresses = resp_json.get('IPSet', {}).get('Addresses', [])
-        lock_token = resp_json.get('LockToken')
+        list_addresses = resp_json.get("IPSet", {}).get("Addresses", [])
+        lock_token = resp_json.get("LockToken")
 
         # update ip address based on action
         if AWSWAF_ADD_IP == self.get_action_identifier():
@@ -206,9 +203,9 @@ class AwsWafConnector(BaseConnector):
 
         # Update call using lock token and updated list of ip_address
         try:
-            ret_val, resp_json = self._make_boto_call(action_result, 'update_ip_set', Name=ip_set_name,
-                                                      Id=ip_set_id, Addresses=list_addresses,
-                                                      LockToken=lock_token)
+            ret_val, resp_json = self._make_boto_call(
+                action_result, "update_ip_set", Name=ip_set_name, Id=ip_set_id, Addresses=list_addresses, LockToken=lock_token
+            )
             if phantom.is_fail(ret_val):
                 return action_result.get_status()
         except Exception as e:
@@ -224,11 +221,11 @@ class AwsWafConnector(BaseConnector):
             return action_result.get_status()
 
         action_identifier_map = {
-            'list_ip_sets': ['list_ip_sets', 'IPSets'],
-            'list_acls': ['list_web_acls', 'WebACLs'],
-            'add_ip': ['list_ip_sets', 'IPSets'],
-            'delete_ip': ['list_ip_sets', 'IPSets'],
-            'delete_ip_set': ['list_ip_sets', 'IPSets']
+            "list_ip_sets": ["list_ip_sets", "IPSets"],
+            "list_acls": ["list_web_acls", "WebACLs"],
+            "add_ip": ["list_ip_sets", "IPSets"],
+            "delete_ip": ["list_ip_sets", "IPSets"],
+            "delete_ip_set": ["list_ip_sets", "IPSets"],
         }
 
         action_identifier = self.get_action_identifier()
@@ -242,11 +239,12 @@ class AwsWafConnector(BaseConnector):
         set_list = list()
 
         while True:
-            if not resp_json.get('NextMarker'):
+            if not resp_json.get("NextMarker"):
                 ret_val, resp_json = self._make_boto_call(action_result, method_name, Limit=AWSWAF_DEFAULT_LIMIT)
             else:
-                ret_val, resp_json = self._make_boto_call(action_result, method_name, Limit=AWSWAF_DEFAULT_LIMIT,
-                                                          NextMarker=resp_json.get('NextMarker'))
+                ret_val, resp_json = self._make_boto_call(
+                    action_result, method_name, Limit=AWSWAF_DEFAULT_LIMIT, NextMarker=resp_json.get("NextMarker")
+                )
 
             if phantom.is_fail(ret_val) or resp_json is None:
                 self.save_progress("Error while getting the {}".format(set_name))
@@ -257,7 +255,7 @@ class AwsWafConnector(BaseConnector):
                 break
             else:
                 set_list.extend(resp_json.get(set_name))
-                if not resp_json.get('NextMarker'):
+                if not resp_json.get("NextMarker"):
                     break
                 if limit:
                     limit -= AWSWAF_DEFAULT_LIMIT
@@ -266,7 +264,7 @@ class AwsWafConnector(BaseConnector):
 
     def validate_params(self, action_result, ip_set_id, ip_set_name, ip_address_list):
 
-        ip_type = ''
+        ip_type = ""
         if not ip_set_id and not ip_set_name:
             return action_result.set_status(phantom.APP_ERROR, AWSWAF_INSUFFICIENT_PARAM)
 
@@ -288,7 +286,7 @@ class AwsWafConnector(BaseConnector):
 
         self.save_progress(AWSWAF_INFO_CHECK_CREDENTIALS)
 
-        if self._scope == AWSWAF_SCOPE_CLOUDFRONT and not self._region == 'us-east-1':
+        if self._scope == AWSWAF_SCOPE_CLOUDFRONT and not self._region == "us-east-1":
             self.save_progress(AWSWAF_INFO_SCOPE)
             return action_result.set_status(phantom.APP_ERROR)
 
@@ -296,7 +294,7 @@ class AwsWafConnector(BaseConnector):
             return action_result.get_status()
 
         # make rest call
-        ret_val, resp_json = self._make_boto_call(action_result, 'list_rule_groups')
+        ret_val, resp_json = self._make_boto_call(action_result, "list_rule_groups")
 
         if phantom.is_fail(ret_val) or resp_json is None:
             self.save_progress(AWSWAF_TEST_CONNECTIVITY_FAILED)
@@ -313,36 +311,37 @@ class AwsWafConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        ip_set_id = param.get('ip_set_id')
-        ip_set_name = param.get('ip_set_name')
-        ip_address = param.get('ip_address')
-        ip_address_list = [x.strip() for x in ip_address.split(',') if x.strip()]
+        ip_set_id = param.get("ip_set_id")
+        ip_set_name = param.get("ip_set_name")
+        ip_address = param.get("ip_address")
+        ip_address_list = [x.strip() for x in ip_address.split(",") if x.strip()]
         ip_type = self.validate_params(action_result, ip_set_id, ip_set_name, ip_address_list)
 
         ip_set = self.paginator(AWSWAF_DEFAULT_LIMIT, action_result, param)
         ip_set_id, ip_set_name = self._verify_ip_set(action_result, ip_set, ip_set_id, ip_set_name)
 
         if not ip_set_id:
-            ip_set_name = param.get('ip_set_name')
+            ip_set_name = param.get("ip_set_name")
             # create a new IP set with given IP addresses
-            ret_val, resp_json = self._make_boto_call(action_result, 'create_ip_set', Name=ip_set_name,
-                                                      IPAddressVersion=ip_type, Addresses=ip_address_list)
+            ret_val, resp_json = self._make_boto_call(
+                action_result, "create_ip_set", Name=ip_set_name, IPAddressVersion=ip_type, Addresses=ip_address_list
+            )
 
             if phantom.is_fail(ret_val):
                 return action_result.set_status(phantom.APP_ERROR, AWSWAF_ERR_CREATE_IPSET)
 
             action_result.set_status(phantom.APP_SUCCESS)
-            ip_set_id = resp_json.get('Summary', {}).get('Id')
-            action_result.add_data({'Id': ip_set_id})
+            ip_set_id = resp_json.get("Summary", {}).get("Id")
+            action_result.add_data({"Id": ip_set_id})
         else:
             ret_val = self._ip_update(action_result, ip_address_list, ip_set_id, ip_set_name)
 
         summary = action_result.update_summary({})
 
         if phantom.is_fail(ret_val):
-            summary['ip_status'] = AWSWAF_ADD_IP_FAILED
+            summary["ip_status"] = AWSWAF_ADD_IP_FAILED
 
-        summary['ip_status'] = AWSWAF_ADD_IP_SUCCESS
+        summary["ip_status"] = AWSWAF_ADD_IP_SUCCESS
 
         return action_result.get_status()
 
@@ -353,11 +352,11 @@ class AwsWafConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        ip_set_id = param.get('ip_set_id')
-        ip_set_name = param.get('ip_set_name')
-        ip_address = param.get('ip_address')
+        ip_set_id = param.get("ip_set_id")
+        ip_set_name = param.get("ip_set_name")
+        ip_address = param.get("ip_address")
 
-        ip_address_list = [x.strip() for x in ip_address.split(',') if x.strip()]
+        ip_address_list = [x.strip() for x in ip_address.split(",") if x.strip()]
         _ = self.validate_params(action_result, ip_set_id, ip_set_name, ip_address_list)
 
         ip_set = self.paginator(AWSWAF_DEFAULT_LIMIT, action_result, param)
@@ -372,9 +371,9 @@ class AwsWafConnector(BaseConnector):
         summary = action_result.update_summary({})
 
         if phantom.is_fail(ret_val):
-            summary['ip_status'] = AWSWAF_DELETE_IP_FAILED
+            summary["ip_status"] = AWSWAF_DELETE_IP_FAILED
 
-        summary['ip_status'] = AWSWAF_DELETE_IP_SUCCESS
+        summary["ip_status"] = AWSWAF_DELETE_IP_SUCCESS
 
         return action_result.get_status()
 
@@ -384,8 +383,8 @@ class AwsWafConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        ip_set_id = param.get('ip_set_id')
-        ip_set_name = param.get('ip_set_name')
+        ip_set_id = param.get("ip_set_id")
+        ip_set_name = param.get("ip_set_name")
 
         ip_set = self.paginator(AWSWAF_DEFAULT_LIMIT, action_result, param)
 
@@ -395,26 +394,25 @@ class AwsWafConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, AWSWAF_INVALID_INPUT)
 
         try:
-            ret_val, resp_json = self._make_boto_call(action_result, 'get_ip_set', Name=ip_set_name, Id=ip_set_id)
+            ret_val, resp_json = self._make_boto_call(action_result, "get_ip_set", Name=ip_set_name, Id=ip_set_id)
             if phantom.is_fail(ret_val):
                 return action_result.set_status(phantom.APP_ERROR, AWSWAF_ERR_GET_IPSET)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, str(e))
 
-        lock_token = resp_json.get('LockToken')
+        lock_token = resp_json.get("LockToken")
 
         try:
-            ret_val, resp_json = self._make_boto_call(action_result, 'delete_ip_set', Name=ip_set_name,
-                                                      Id=ip_set_id, LockToken=lock_token)
+            ret_val, resp_json = self._make_boto_call(action_result, "delete_ip_set", Name=ip_set_name, Id=ip_set_id, LockToken=lock_token)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, str(e))
 
         summary = action_result.update_summary({})
 
         if phantom.is_fail(ret_val):
-            summary['delete_status'] = AWSWAF_DELETE_IPSET_FAILED
+            summary["delete_status"] = AWSWAF_DELETE_IPSET_FAILED
             return action_result.get_status()
-        summary['delete_status'] = AWSWAF_DELETE_IPSET_SUCCESS
+        summary["delete_status"] = AWSWAF_DELETE_IPSET_SUCCESS
 
         action_result.add_data(resp_json)
 
@@ -427,7 +425,7 @@ class AwsWafConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        limit = param.get('limit')
+        limit = param.get("limit")
         if limit == 0 or (limit and (not str(limit).isdigit() or limit <= 0)):
             return action_result.set_status(phantom.APP_ERROR, AWSWAF_INVALID_LIMIT)
 
@@ -441,7 +439,7 @@ class AwsWafConnector(BaseConnector):
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary['number of acls'] = len(set_list)
+        summary["number of acls"] = len(set_list)
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -451,7 +449,7 @@ class AwsWafConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        limit = param.get('limit')
+        limit = param.get("limit")
         if limit == 0 or (limit and (not str(limit).isdigit() or limit <= 0)):
             return action_result.set_status(phantom.APP_ERROR, AWSWAF_INVALID_LIMIT)
 
@@ -466,7 +464,7 @@ class AwsWafConnector(BaseConnector):
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary['number of ip sets'] = len(set_list)
+        summary["number of ip sets"] = len(set_list)
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -476,12 +474,12 @@ class AwsWafConnector(BaseConnector):
         self.debug_print("action_id", self.get_action_identifier())
 
         action_mapping = {
-            'test_connectivity': self._handle_test_connectivity,
-            'add_ip': self._handle_add_ip,
-            'delete_ip': self._handle_delete_ip,
-            'delete_ip_set': self._handle_delete_ip_set,
-            'list_acls': self._handle_list_acls,
-            'list_ip_sets': self._handle_list_ip_sets
+            "test_connectivity": self._handle_test_connectivity,
+            "add_ip": self._handle_add_ip,
+            "delete_ip": self._handle_delete_ip,
+            "delete_ip_set": self._handle_delete_ip_set,
+            "list_acls": self._handle_list_acls,
+            "list_ip_sets": self._handle_list_ip_sets,
         }
 
         action = self.get_action_identifier()
@@ -509,16 +507,16 @@ class AwsWafConnector(BaseConnector):
         config = self.get_config()
 
         self._proxy = {}
-        env_vars = config.get('_reserved_environment_variables', {})
-        if 'HTTP_PROXY' in env_vars:
-            self._proxy['http'] = env_vars['HTTP_PROXY']['value']
-        if 'HTTPS_PROXY' in env_vars:
-            self._proxy['https'] = env_vars['HTTPS_PROXY']['value']
+        env_vars = config.get("_reserved_environment_variables", {})
+        if "HTTP_PROXY" in env_vars:
+            self._proxy["http"] = env_vars["HTTP_PROXY"]["value"]
+        if "HTTPS_PROXY" in env_vars:
+            self._proxy["https"] = env_vars["HTTPS_PROXY"]["value"]
 
         self._region = AWSWAF_REGION_DICT.get(config[AWSWAF_REGION])
         self._scope = config.get(AWSWAF_SCOPE)
 
-        if config.get('use_role'):
+        if config.get("use_role"):
             credentials = self._handle_get_ec2_role()
             if not credentials:
                 return self.set_status(phantom.APP_ERROR, "Failed to get EC2 role credentials")
@@ -543,7 +541,7 @@ class AwsWafConnector(BaseConnector):
         return phantom.APP_SUCCESS
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import argparse
 
@@ -553,9 +551,9 @@ if __name__ == '__main__':
 
     argparser = argparse.ArgumentParser()
 
-    argparser.add_argument('input_test_json', help='Input Test JSON file')
-    argparser.add_argument('-u', '--username', help='username', required=False)
-    argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument("input_test_json", help="Input Test JSON file")
+    argparser.add_argument("-u", "--username", help="username", required=False)
+    argparser.add_argument("-p", "--password", help="password", required=False)
 
     args = argparser.parse_args()
     session_id = None
@@ -563,31 +561,31 @@ if __name__ == '__main__':
     username = args.username
     password = args.password
 
-    if (username is not None and password is None):
+    if username is not None and password is None:
         # User specified a username but not a password, so ask
         import getpass
 
         password = getpass.getpass("Password: ")
 
-    if (username and password):
+    if username and password:
         login_url = BaseConnector._get_phantom_base_url() + "login"
         try:
             print("Accessing the Login page")
             r = requests.get(login_url, verify=False)
-            csrftoken = r.cookies['csrftoken']
+            csrftoken = r.cookies["csrftoken"]
 
             data = dict()
-            data['username'] = username
-            data['password'] = password
-            data['csrfmiddlewaretoken'] = csrftoken
+            data["username"] = username
+            data["password"] = password
+            data["csrfmiddlewaretoken"] = csrftoken
 
             headers = dict()
-            headers['Cookie'] = 'csrftoken=' + csrftoken
-            headers['Referer'] = login_url
+            headers["Cookie"] = "csrftoken=" + csrftoken
+            headers["Referer"] = login_url
 
             print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, verify=False, data=data, headers=headers)
-            session_id = r2.cookies['sessionid']
+            session_id = r2.cookies["sessionid"]
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
@@ -600,9 +598,9 @@ if __name__ == '__main__':
         connector = AwsWafConnector()
         connector.print_progress_message = True
 
-        if (session_id is not None):
-            in_json['user_session_token'] = session_id
-            connector._set_csrf_info(csrftoken, headers['Referer'])
+        if session_id is not None:
+            in_json["user_session_token"] = session_id
+            connector._set_csrf_info(csrftoken, headers["Referer"])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))

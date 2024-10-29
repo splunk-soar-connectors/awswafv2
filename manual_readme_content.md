@@ -11,10 +11,10 @@ There are two ways to configure an AWS WAF asset. The first is to configure the 
 an EC2 instance, the **use_role** checkbox can be checked instead. This will allow the role that is
 attached to the instance to be used. Please see the [AWS EC2 and IAM
 documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)
-for more information. 
+for more information.
 
 Region parameter provided in the asset configuration parameter and region of the bucket which is
-created in AWS console must match, otherwise the user will get an InvalidLocationConstraint error. 
+created in AWS console must match, otherwise the user will get an InvalidLocationConstraint error.
 
 For the **Update bucket** action, the
 API is unable to validate the KMS key. Hence, it is recommended to provide a

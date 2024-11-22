@@ -14,7 +14,7 @@
     "utctime_updated": "2022-01-07T20:07:08.000000Z",
     "package_name": "phantom_awswafv2",
     "main_module": "awswafv2_connector.py",
-    "min_phantom_version": "6.2.2",
+    "min_phantom_version": "6.3.0",
     "fips_compliant": true,
     "app_wizard_version": "1.0.0",
     "python_version": "3",

@@ -2,7 +2,7 @@
 # AWS WAF V2
 
 Publisher: Splunk  
-Connector Version: 2.1.8  
+Connector Version: 2.1.9  
 Product Vendor: AWS  
 Product Name: WAF V2  
 Product Version Supported (regex): ".\*"  

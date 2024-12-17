@@ -2,11 +2,11 @@
 # AWS WAF V2
 
 Publisher: Splunk  
-Connector Version: 2.1.8  
+Connector Version: 2.1.9  
 Product Vendor: AWS  
 Product Name: WAF V2  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 6.1.1  
+Minimum Product Version: 6.3.0  
 
 This app integrates with AWS WAF to add and delete IP addresses using API version V2
 
@@ -47,8 +47,8 @@ actions within a playbook. For more information, please see the [AWS Identity an
 documentation](https://docs.aws.amazon.com/iam/index.html) .
 
 
-### Configuration Variables
-The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a WAF V2 asset in SOAR.
+### Configuration variables
+This table lists the configuration variables required to operate AWS WAF V2. These variables are specified when configuring a WAF V2 asset in Splunk SOAR.
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------

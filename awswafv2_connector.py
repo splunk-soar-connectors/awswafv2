@@ -1,6 +1,6 @@
 # File: awswafv2_connector.py
 #
-# Copyright (c) 2021-2024 Splunk Inc.
+# Copyright (c) 2021-2025 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,11 +36,9 @@ class RetVal(tuple):
 
 
 class AwsWafConnector(BaseConnector):
-
     def __init__(self):
-
         # Call the BaseConnectors init first
-        super(AwsWafConnector, self).__init__()
+        super().__init__()
 
         # Variable to hold a base_url in case the app makes REST calls
         # Do note that the app json defines the asset config, so please
@@ -54,7 +52,6 @@ class AwsWafConnector(BaseConnector):
         self._proxy = None
 
     def _sanitize_data(self, cur_obj):
-
         try:
             json.dumps(cur_obj)
             return cur_obj
@@ -92,11 +89,10 @@ class AwsWafConnector(BaseConnector):
         return cur_obj
 
     def _make_boto_call(self, action_result, method, paginate=False, empty_payload=False, **kwargs):
-
         try:
             boto_func = getattr(self._client, method)
         except AttributeError:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, "Invalid method: {0}".format(method)), None)
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Invalid method: {method}"), None)
         try:
             resp_json = boto_func(Scope=self._scope, **kwargs)
         except Exception as e:
@@ -106,7 +102,6 @@ class AwsWafConnector(BaseConnector):
         return phantom.APP_SUCCESS, self._sanitize_data(resp_json)
 
     def _create_client(self, action_result, param=None):
-
         boto_config = None
         if self._proxy:
             boto_config = Config(proxies=self._proxy)
@@ -122,7 +117,7 @@ class AwsWafConnector(BaseConnector):
 
                 self.save_progress("Using temporary assume role credentials for action")
             except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, "Failed to get temporary credentials:{0}".format(e))
+                return action_result.set_status(phantom.APP_ERROR, f"Failed to get temporary credentials:{e}")
 
         try:
             if self._access_key and self._secret_key:
@@ -139,12 +134,11 @@ class AwsWafConnector(BaseConnector):
                 self.debug_print("Creating boto3 client without API keys")
                 self._client = client(AWSWAF_VERSION_V2, region_name=self._region, config=boto_config)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 client: {0}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, f"Could not create boto3 client: {e}")
 
         return phantom.APP_SUCCESS
 
     def _verify_ip_set(self, action_result, ip_set, id, name):
-
         ip_set_id = ""
         ip_set_name = ""
         if id:
@@ -216,7 +210,6 @@ class AwsWafConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def paginator(self, limit, action_result, param):
-
         if not self._create_client(action_result, param):
             return action_result.get_status()
 
@@ -247,7 +240,7 @@ class AwsWafConnector(BaseConnector):
                 )
 
             if phantom.is_fail(ret_val) or resp_json is None:
-                self.save_progress("Error while getting the {}".format(set_name))
+                self.save_progress(f"Error while getting the {set_name}")
                 return None
 
             if limit and limit <= AWSWAF_DEFAULT_LIMIT:
@@ -263,7 +256,6 @@ class AwsWafConnector(BaseConnector):
         return set_list
 
     def validate_params(self, action_result, ip_set_id, ip_set_name, ip_address_list):
-
         ip_type = ""
         if not ip_set_id and not ip_set_name:
             return action_result.set_status(phantom.APP_ERROR, AWSWAF_INSUFFICIENT_PARAM)
@@ -280,7 +272,6 @@ class AwsWafConnector(BaseConnector):
         return ip_type
 
     def _handle_test_connectivity(self, param):
-
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -305,7 +296,6 @@ class AwsWafConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_add_ip(self, param):
-
         self.save_progress(AWSWAF_INFO_ACTION.format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
@@ -346,7 +336,6 @@ class AwsWafConnector(BaseConnector):
         return action_result.get_status()
 
     def _handle_delete_ip(self, param):
-
         self.save_progress(AWSWAF_INFO_ACTION.format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
@@ -419,7 +408,6 @@ class AwsWafConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_list_acls(self, param):
-
         self.save_progress(AWSWAF_INFO_ACTION.format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
@@ -469,7 +457,6 @@ class AwsWafConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def handle_action(self, param):
-
         # Get the action that we are supposed to execute for this App Run
         self.debug_print("action_id", self.get_action_identifier())
 
@@ -492,13 +479,11 @@ class AwsWafConnector(BaseConnector):
         return action_execution_status
 
     def _handle_get_ec2_role(self):
-
         session = Session(region_name=self._region)
         credentials = session.get_credentials()
         return credentials
 
     def initialize(self):
-
         # Load the state in initialize, use it to store data
         # that needs to be accessed across actions
         self._state = self.load_state()
@@ -535,14 +520,12 @@ class AwsWafConnector(BaseConnector):
         return phantom.APP_SUCCESS
 
     def finalize(self):
-
         # Save the state, this data is saved across actions and app upgrades
         self.save_state(self._state)
         return phantom.APP_SUCCESS
 
 
 if __name__ == "__main__":
-
     import argparse
 
     import pudb

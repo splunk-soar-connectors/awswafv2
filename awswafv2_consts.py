@@ -1,6 +1,6 @@
 # File: awswafv2_consts.py
 #
-# Copyright (c) 2021-2024 Splunk Inc.
+# Copyright (c) 2021-2025 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ AWSWAF_ERR_LIST_IPSET = "Error while connecting list_ip_sets api"
 AWSWAF_ERR_IP_NOT_FOUND = "IP could not be found in the given ip set. Please provide valid input parameters"
 AWSWAF_INVALID_INPUT = "The given input ip_set_id/ip_set_name is not valid. Please provide valid input parameters"
 AWSWAF_INVALID_IP = (
-    "Please enter IP in a proper format which includes the mask of the IP (e.g. 126.0.0.0/24 or " "1111:0000:0000:0000:0000:0000:0000:0115/128)"
+    "Please enter IP in a proper format which includes the mask of the IP (e.g. 126.0.0.0/24 or 1111:0000:0000:0000:0000:0000:0000:0115/128)"
 )
 AWSWAF_INVALID_LIMIT = "Please provide a non-zero positive integer in limit"
 AWSWAF_TEST_CONNECTIVITY_FAILED = "Test Connectivity Failed"

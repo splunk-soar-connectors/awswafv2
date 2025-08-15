@@ -17,7 +17,7 @@
     "min_phantom_version": "6.3.0",
     "fips_compliant": true,
     "app_wizard_version": "1.0.0",
-    "python_version": "3",
+    "python_version": "3.9, 3.13",
     "latest_tested_versions": [
         "Cloud, API WAFv2 tested on 12-03-2021"
     ],
@@ -921,6 +921,46 @@
             {
                 "module": "s3transfer",
                 "input_file": "wheels/shared/s3transfer-0.3.7-py2.py3-none-any.whl"
+            }
+        ]
+    },
+    "pip39_dependencies": {
+        "wheel": [
+            {
+                "module": "boto3",
+                "input_file": "wheels/py3/boto3-1.40.10-py3-none-any.whl"
+            },
+            {
+                "module": "botocore",
+                "input_file": "wheels/py3/botocore-1.40.10-py3-none-any.whl"
+            },
+            {
+                "module": "jmespath",
+                "input_file": "wheels/py3/jmespath-1.0.1-py3-none-any.whl"
+            },
+            {
+                "module": "s3transfer",
+                "input_file": "wheels/py3/s3transfer-0.13.1-py3-none-any.whl"
+            }
+        ]
+    },
+    "pip313_dependencies": {
+        "wheel": [
+            {
+                "module": "boto3",
+                "input_file": "wheels/py3/boto3-1.40.10-py3-none-any.whl"
+            },
+            {
+                "module": "botocore",
+                "input_file": "wheels/py3/botocore-1.40.10-py3-none-any.whl"
+            },
+            {
+                "module": "jmespath",
+                "input_file": "wheels/py3/jmespath-1.0.1-py3-none-any.whl"
+            },
+            {
+                "module": "s3transfer",
+                "input_file": "wheels/py3/s3transfer-0.13.1-py3-none-any.whl"
             }
         ]
     }

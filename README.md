@@ -1,7 +1,7 @@
 # AWS WAF V2
 
 Publisher: Splunk <br>
-Connector Version: 2.1.9 <br>
+Connector Version: 2.1.10 <br>
 Product Vendor: AWS <br>
 Product Name: WAF V2 <br>
 Minimum Product Version: 6.3.0

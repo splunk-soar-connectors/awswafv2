@@ -1,9 +1,9 @@
 # AWS WAF V2
 
-Publisher: Splunk \
-Connector Version: 2.1.9 \
-Product Vendor: AWS \
-Product Name: WAF V2 \
+Publisher: Splunk <br>
+Connector Version: 2.1.9 <br>
+Product Vendor: AWS <br>
+Product Name: WAF V2 <br>
 Minimum Product Version: 6.3.0
 
 This app integrates with AWS WAF to add and delete IP addresses using API version V2
@@ -52,18 +52,18 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[add ip](#action-add-ip) - Add new IP(s) to an existing IP set or a new IP set \
-[delete ip](#action-delete-ip) - Remove IP(s) from an existing IP set \
-[delete ip set](#action-delete-ip-set) - Remove the specified IP Set \
-[list acls](#action-list-acls) - List all ACLs \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[add ip](#action-add-ip) - Add new IP(s) to an existing IP set or a new IP set <br>
+[delete ip](#action-delete-ip) - Remove IP(s) from an existing IP set <br>
+[delete ip set](#action-delete-ip-set) - Remove the specified IP Set <br>
+[list acls](#action-list-acls) - List all ACLs <br>
 [list ip sets](#action-list-ip-sets) - List all IP sets
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -78,7 +78,7 @@ No Output
 
 Add new IP(s) to an existing IP set or a new IP set
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 The ip_set_id or ip_set_name must be given as input for adding an IP to the IP set, ip_set_id will be considered if both ip_set_id and ip_set_name is provided in input. If the given ip_set_name does not exist on the server and the name matches the WAF IP set name criteria, the new IP set with a given input will be created on the server.
@@ -119,7 +119,7 @@ action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId
 
 Remove IP(s) from an existing IP set
 
-Type: **correct** \
+Type: **correct** <br>
 Read only: **False**
 
 The ip_set_id or ip_set_name must be given as input for deleting an IP from the IP set, ip_set_id will be considered if both ip_set_id and ip_set_name is provided in input.
@@ -159,7 +159,7 @@ action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId
 
 Remove the specified IP Set
 
-Type: **correct** \
+Type: **correct** <br>
 Read only: **False**
 
 The ip_set_id or ip_set_name must be given as input for deleting an IP set, ip_set_id will be used if both ip_set_id and ip_set_name is provided in input.
@@ -196,7 +196,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 List all ACLs
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -227,7 +227,7 @@ action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId
 
 List all IP sets
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters

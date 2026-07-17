@@ -306,8 +306,12 @@ class AwsWafConnector(BaseConnector):
         ip_address = param.get("ip_address")
         ip_address_list = [x.strip() for x in ip_address.split(",") if x.strip()]
         ip_type = self.validate_params(action_result, ip_set_id, ip_set_name, ip_address_list)
+        if action_result.get_status() == phantom.APP_ERROR:
+            return action_result.get_status()
 
         ip_set = self.paginator(AWSWAF_DEFAULT_LIMIT, action_result, param)
+        if ip_set is None:
+            return action_result.get_status()
         ip_set_id, ip_set_name = self._verify_ip_set(action_result, ip_set, ip_set_id, ip_set_name)
 
         if not ip_set_id:
@@ -330,6 +334,7 @@ class AwsWafConnector(BaseConnector):
 
         if phantom.is_fail(ret_val):
             summary["ip_status"] = AWSWAF_ADD_IP_FAILED
+            return action_result.get_status()
 
         summary["ip_status"] = AWSWAF_ADD_IP_SUCCESS
 
@@ -346,9 +351,13 @@ class AwsWafConnector(BaseConnector):
         ip_address = param.get("ip_address")
 
         ip_address_list = [x.strip() for x in ip_address.split(",") if x.strip()]
-        _ = self.validate_params(action_result, ip_set_id, ip_set_name, ip_address_list)
+        self.validate_params(action_result, ip_set_id, ip_set_name, ip_address_list)
+        if action_result.get_status() == phantom.APP_ERROR:
+            return action_result.get_status()
 
         ip_set = self.paginator(AWSWAF_DEFAULT_LIMIT, action_result, param)
+        if ip_set is None:
+            return action_result.get_status()
 
         ip_set_id, ip_set_name = self._verify_ip_set(action_result, ip_set, ip_set_id, ip_set_name)
 
@@ -361,6 +370,7 @@ class AwsWafConnector(BaseConnector):
 
         if phantom.is_fail(ret_val):
             summary["ip_status"] = AWSWAF_DELETE_IP_FAILED
+            return action_result.get_status()
 
         summary["ip_status"] = AWSWAF_DELETE_IP_SUCCESS
 
@@ -376,6 +386,8 @@ class AwsWafConnector(BaseConnector):
         ip_set_name = param.get("ip_set_name")
 
         ip_set = self.paginator(AWSWAF_DEFAULT_LIMIT, action_result, param)
+        if ip_set is None:
+            return action_result.get_status()
 
         ip_set_id, ip_set_name = self._verify_ip_set(action_result, ip_set, ip_set_id, ip_set_name)
 

@@ -228,30 +228,47 @@ class AwsWafConnector(BaseConnector):
         method_name = action_identifier_map.get(action_identifier)[0]
         set_name = action_identifier_map.get(action_identifier)[1]
 
-        resp_json = dict()
         set_list = list()
+        next_marker = None
+        seen_markers = set()
+        page_count = 0
+        remaining = limit
 
         while True:
-            if not resp_json.get("NextMarker"):
-                ret_val, resp_json = self._make_boto_call(action_result, method_name, Limit=AWSWAF_DEFAULT_LIMIT)
-            else:
-                ret_val, resp_json = self._make_boto_call(
-                    action_result, method_name, Limit=AWSWAF_DEFAULT_LIMIT, NextMarker=resp_json.get("NextMarker")
-                )
+            if page_count >= AWSWAF_MAX_PAGINATION_PAGES or len(set_list) >= AWSWAF_MAX_PAGINATION_ITEMS:
+                action_result.set_status(phantom.APP_ERROR, f"{set_name} pagination exceeded the connector safety limit")
+                return None
+
+            page_limit = AWSWAF_DEFAULT_LIMIT if remaining is None else min(AWSWAF_DEFAULT_LIMIT, remaining)
+            page_limit = min(page_limit, AWSWAF_MAX_PAGINATION_ITEMS - len(set_list))
+            request_args = {"Limit": page_limit}
+            if next_marker:
+                request_args["NextMarker"] = next_marker
+
+            ret_val, resp_json = self._make_boto_call(action_result, method_name, **request_args)
 
             if phantom.is_fail(ret_val) or resp_json is None:
                 self.save_progress(f"Error while getting the {set_name}")
                 return None
 
-            if limit and limit <= AWSWAF_DEFAULT_LIMIT:
-                set_list.extend(resp_json.get(set_name)[:limit])
+            page_count += 1
+            page_items = resp_json.get(set_name, [])
+            if remaining is not None:
+                page_items = page_items[:remaining]
+            set_list.extend(page_items)
+
+            if remaining is not None:
+                remaining -= len(page_items)
+            if remaining == 0:
                 break
-            else:
-                set_list.extend(resp_json.get(set_name))
-                if not resp_json.get("NextMarker"):
-                    break
-                if limit:
-                    limit -= AWSWAF_DEFAULT_LIMIT
+
+            next_marker = resp_json.get("NextMarker")
+            if not next_marker:
+                break
+            if next_marker in seen_markers:
+                action_result.set_status(phantom.APP_ERROR, f"{set_name} returned a repeated pagination marker")
+                return None
+            seen_markers.add(next_marker)
 
         return set_list
 

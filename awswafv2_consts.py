@@ -1,6 +1,6 @@
 # File: awswafv2_consts.py
 #
-# Copyright (c) 2021-2025 Splunk Inc.
+# Copyright (c) 2021-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ AWSWAF_SCOPE_CLOUDFRONT = "CLOUDFRONT"
 AWSWAF_ADD_IP = "add_ip"
 AWSWAF_DELETE_IP = "delete_ip"
 AWSWAF_DEFAULT_LIMIT = 100
+AWSWAF_MAX_PAGINATION_PAGES = 1000
+AWSWAF_MAX_PAGINATION_ITEMS = 100000
 AWSWAF_INSUFFICIENT_PARAM = "Insufficient parameters. Please provide either ip_set_name or ip_set_id"
 AWSWAF_ERR_TOKEN = "Error in connection while getting the token"
 AWSWAF_ERR_CREATE_IPSET = "Error in connection while creating a new IP set"

@@ -132,7 +132,7 @@
                 },
                 "credentials": {
                     "description": "Assumed role credentials",
-                    "data_type": "string",
+                    "data_type": "password",
                     "primary": true,
                     "contains": [
                         "aws credentials"
@@ -281,16 +281,6 @@
                     "example_values": [
                         1
                     ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': '*REDACTED*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '*REDACTED*', 'SessionToken': '*REDACTED*'}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
                 }
             ],
             "render": {
@@ -337,7 +327,7 @@
                 },
                 "credentials": {
                     "description": "Assumed role credentials",
-                    "data_type": "string",
+                    "data_type": "password",
                     "primary": true,
                     "contains": [
                         "aws credentials"
@@ -474,16 +464,6 @@
                     "example_values": [
                         1
                     ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': '*REDACTED*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '*REDACTED*', 'SessionToken': '*REDACTED*'}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
                 }
             ],
             "render": {
@@ -519,7 +499,7 @@
                 },
                 "credentials": {
                     "description": "Assumed role credentials",
-                    "data_type": "string",
+                    "data_type": "password",
                     "primary": true,
                     "contains": [
                         "aws credentials"
@@ -623,16 +603,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': '*REDACTED*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '*REDACTED*', 'SessionToken': '*REDACTED*'}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
-                },
-                {
                     "data_path": "summary.total_objects",
                     "data_type": "numeric",
                     "example_values": [
@@ -667,7 +637,7 @@
                 },
                 "credentials": {
                     "description": "Assumed role credentials",
-                    "data_type": "string",
+                    "data_type": "password",
                     "primary": true,
                     "contains": [
                         "aws credentials"
@@ -758,16 +728,6 @@
                     "example_values": [
                         1
                     ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': '*REDACTED*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '*REDACTED*', 'SessionToken': '*REDACTED*'}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
                 }
             ],
             "render": {
@@ -790,7 +750,7 @@
                 },
                 "credentials": {
                     "description": "Assumed role credentials",
-                    "data_type": "string",
+                    "data_type": "password",
                     "primary": true,
                     "contains": [
                         "aws credentials"
@@ -885,16 +845,6 @@
                     "data_type": "numeric",
                     "example_values": [
                         1
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': '*REDACTED*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '*REDACTED*', 'SessionToken': '*REDACTED*'}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 }
             ],

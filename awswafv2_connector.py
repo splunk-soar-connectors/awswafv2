@@ -51,6 +51,10 @@ class AwsWafConnector(BaseConnector):
         self._session_token = None
         self._proxy = None
 
+    @staticmethod
+    def _sanitize_action_parameters(param):
+        return {key: value for key, value in param.items() if key != "credentials"}
+
     def _sanitize_data(self, cur_obj):
         try:
             json.dumps(cur_obj)
@@ -290,7 +294,7 @@ class AwsWafConnector(BaseConnector):
 
     def _handle_test_connectivity(self, param):
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         self.save_progress(AWSWAF_INFO_CHECK_CREDENTIALS)
 
@@ -316,7 +320,7 @@ class AwsWafConnector(BaseConnector):
         self.save_progress(AWSWAF_INFO_ACTION.format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         ip_set_id = param.get("ip_set_id")
         ip_set_name = param.get("ip_set_name")
@@ -361,7 +365,7 @@ class AwsWafConnector(BaseConnector):
         self.save_progress(AWSWAF_INFO_ACTION.format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         ip_set_id = param.get("ip_set_id")
         ip_set_name = param.get("ip_set_name")
@@ -397,7 +401,7 @@ class AwsWafConnector(BaseConnector):
         self.save_progress(AWSWAF_INFO_ACTION.format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         ip_set_id = param.get("ip_set_id")
         ip_set_name = param.get("ip_set_name")
@@ -440,7 +444,7 @@ class AwsWafConnector(BaseConnector):
         self.save_progress(AWSWAF_INFO_ACTION.format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         limit = param.get("limit")
         if limit == 0 or (limit and (not str(limit).isdigit() or limit <= 0)):
@@ -464,7 +468,7 @@ class AwsWafConnector(BaseConnector):
         self.save_progress(AWSWAF_INFO_ACTION.format(self.get_action_identifier()))
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         limit = param.get("limit")
         if limit == 0 or (limit and (not str(limit).isdigit() or limit <= 0)):

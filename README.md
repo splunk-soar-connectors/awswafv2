@@ -113,7 +113,6 @@ action_result.message | string | | Ip status: IP(s) added successfully |
 action_result.data.\*.NextLockToken | string | | |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'delete ip'
 
@@ -153,7 +152,6 @@ action_result.message | string | | Ip status: IP(s) deleted successfully |
 action_result.data.\*.NextLockToken | string | | |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'delete ip set'
 
@@ -190,7 +188,6 @@ action_result.parameter.ip_set_id | string | `awswaf ip set id` | 25b7e872-0645-
 action_result.parameter.ip_set_name | string | `awswaf ip set name` | new_ip_set_1383662 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'list acls'
 
@@ -221,7 +218,6 @@ action_result.summary.number_of_acls | numeric | | 4 |
 action_result.message | string | | Number of acls: 4 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'list ip sets'
 
@@ -252,7 +248,6 @@ action_result.summary.number_of_ip_sets | numeric | | 56 |
 action_result.message | string | | Number of ip sets: 56 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ______________________________________________________________________
 

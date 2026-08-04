@@ -252,9 +252,13 @@ class AwsWafConnector(BaseConnector):
                 return None
 
             page_count += 1
-            page_items = resp_json.get(set_name, [])
-            if remaining is not None:
-                page_items = page_items[:remaining]
+            page_items = resp_json.get(set_name)
+            if not isinstance(page_items, list):
+                action_result.set_status(phantom.APP_ERROR, f"{set_name} returned an invalid result page")
+                return None
+            if len(page_items) > page_limit:
+                action_result.set_status(phantom.APP_ERROR, f"{set_name} returned more items than the connector requested")
+                return None
             set_list.extend(page_items)
 
             if remaining is not None:

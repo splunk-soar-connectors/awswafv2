@@ -279,16 +279,15 @@ class AwsWafConnector(BaseConnector):
     def validate_params(self, action_result, ip_set_id, ip_set_name, ip_address_list):
         ip_type = ""
         if not ip_set_id and not ip_set_name:
-            return action_result.set_status(phantom.APP_ERROR, AWSWAF_INSUFFICIENT_PARAM)
+            action_result.set_status(phantom.APP_ERROR, AWSWAF_INSUFFICIENT_PARAM)
+            return None
 
         for ip_address in ip_address_list:
             ip_type = self._validate_ip(ip_address)
 
             if ip_type is None:
-                return action_result.set_status(phantom.APP_ERROR, AWSWAF_INVALID_IP)
-
-            if not ip_type:
-                return action_result.set_status(phantom.APP_ERROR, AWSWAF_INVALID_IP)
+                action_result.set_status(phantom.APP_ERROR, AWSWAF_INVALID_IP)
+                return None
 
         return ip_type
 
@@ -327,7 +326,7 @@ class AwsWafConnector(BaseConnector):
         ip_address = param.get("ip_address")
         ip_address_list = [x.strip() for x in ip_address.split(",") if x.strip()]
         ip_type = self.validate_params(action_result, ip_set_id, ip_set_name, ip_address_list)
-        if action_result.get_status() == phantom.APP_ERROR:
+        if ip_type is None:
             return action_result.get_status()
 
         ip_set = self.paginator(AWSWAF_DEFAULT_LIMIT, action_result, param)
@@ -372,8 +371,7 @@ class AwsWafConnector(BaseConnector):
         ip_address = param.get("ip_address")
 
         ip_address_list = [x.strip() for x in ip_address.split(",") if x.strip()]
-        self.validate_params(action_result, ip_set_id, ip_set_name, ip_address_list)
-        if action_result.get_status() == phantom.APP_ERROR:
+        if self.validate_params(action_result, ip_set_id, ip_set_name, ip_address_list) is None:
             return action_result.get_status()
 
         ip_set = self.paginator(AWSWAF_DEFAULT_LIMIT, action_result, param)

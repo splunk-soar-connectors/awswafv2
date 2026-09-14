@@ -90,7 +90,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **ip_set_id** | optional | ID of the IP set | string | `awswaf ip set id` |
 **ip_set_name** | optional | Name of the IP set | string | `awswaf ip set name` |
 **ip_address** | required | IP Address (Allows comma-separated) | string | `awswaf ip mask` |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
@@ -113,7 +113,6 @@ action_result.message | string | | Ip status: IP(s) added successfully |
 action_result.data.\*.NextLockToken | string | | |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'} |
 
 ## action: 'delete ip'
 
@@ -131,7 +130,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **ip_set_id** | optional | IP Set ID | string | `awswaf ip set id` |
 **ip_set_name** | optional | IP Set Name | string | `awswaf ip set name` |
 **ip_address** | required | IP Address (Allows comma-separated) | string | `awswaf ip mask` |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
@@ -153,7 +152,6 @@ action_result.message | string | | Ip status: IP(s) deleted successfully |
 action_result.data.\*.NextLockToken | string | | |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'} |
 
 ## action: 'delete ip set'
 
@@ -170,7 +168,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **ip_set_id** | optional | IP Set ID | string | `awswaf ip set id` |
 **ip_set_name** | optional | IP Set Name | string | `awswaf ip set name` |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
@@ -188,7 +186,6 @@ action_result.message | string | | Delete status: IP Set deleted successfully |
 action_result.summary.delete_status | string | | IP Set deleted successfully |
 action_result.parameter.ip_set_id | string | `awswaf ip set id` | 25b7e872-0645-4229-91d5-28e2369262aa |
 action_result.parameter.ip_set_name | string | `awswaf ip set name` | new_ip_set_1383662 |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'} |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
 
@@ -204,7 +201,7 @@ Read only: **True**
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **limit** | optional | Maximum number of results (default: 100) | numeric | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
@@ -221,7 +218,6 @@ action_result.summary.number_of_acls | numeric | | 4 |
 action_result.message | string | | Number of acls: 4 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'} |
 
 ## action: 'list ip sets'
 
@@ -235,7 +231,7 @@ Read only: **True**
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **limit** | optional | Maximum number of results (default: 100) | numeric | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
@@ -252,7 +248,6 @@ action_result.summary.number_of_ip_sets | numeric | | 56 |
 action_result.message | string | | Number of ip sets: 56 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': '\*REDACTED\*', 'Expiration': '2021-06-07 22:28:04', 'SecretAccessKey': '\*REDACTED\*', 'SessionToken': '\*REDACTED\*'} |
 
 ______________________________________________________________________
 
